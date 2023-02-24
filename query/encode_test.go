@@ -304,8 +304,8 @@ func TestValues_NestedTypes(t *testing.T) {
 				},
 			},
 			url.Values{
-				"nest[a][value]": {"v"},
-				"nest[b]":        {""},
+				"nest.a.value": {"v"},
+				"nest.b":       {""},
 			},
 		},
 		{
@@ -319,9 +319,9 @@ func TestValues_NestedTypes(t *testing.T) {
 				},
 			},
 			url.Values{
-				"nest[a][value]":   {""},
-				"nest[b]":          {""},
-				"nest[ptr][value]": {"v"},
+				"nest.a.value":   {""},
+				"nest.b":         {""},
+				"nest.ptr.value": {"v"},
 			},
 		},
 		{
@@ -361,7 +361,7 @@ func TestValues_NestedArrayTypes(t *testing.T) {
 				},
 			},
 			url.Values{
-				"nest[a][0][value]": {"v"},
+				"nest.a[0].value": {"v"},
 			},
 		},
 		{
@@ -375,7 +375,7 @@ func TestValues_NestedArrayTypes(t *testing.T) {
 				},
 			},
 			url.Values{
-				"nest[ptr][0][value]": {"v"},
+				"nest.ptr[0].value": {"v"},
 			},
 		},
 		{
