@@ -193,6 +193,12 @@ func TestValues_Slices(t *testing.T) {
 		},
 		{
 			struct {
+				V []string `url:",brackets,numbered"`
+			}{[]string{"a", "b"}},
+			url.Values{"V[0]": {"a"}, "V[1]": {"b"}},
+		},
+		{
+			struct {
 				V []string `url:",numbered"`
 			}{[]string{"a", "b"}},
 			url.Values{"V0": {"a"}, "V1": {"b"}},
