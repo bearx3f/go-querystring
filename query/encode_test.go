@@ -335,6 +335,60 @@ func TestValues_NestedTypes(t *testing.T) {
 	}
 }
 
+func TestValues_NestedArrayTypes(t *testing.T) {
+	type SubNested struct {
+		Value string `url:"value"`
+	}
+
+	type Nested struct {
+		A   []SubNested  `url:"a,brackets,numbered"`
+		B   []*SubNested `url:"b,brackets,numbered"`
+		Ptr []*SubNested `url:"ptr,brackets,numbered,omitempty"`
+	}
+
+	tests := []struct {
+		input interface{}
+		want  url.Values
+	}{
+		{
+			struct {
+				Nest Nested `url:"nest"`
+			}{
+				Nested{
+					A: []SubNested{
+						{Value: "v"},
+					},
+				},
+			},
+			url.Values{
+				"nest[a][0][value]": {"v"},
+			},
+		},
+		{
+			struct {
+				Nest Nested `url:"nest"`
+			}{
+				Nested{
+					Ptr: []*SubNested{
+						{Value: "v"},
+					},
+				},
+			},
+			url.Values{
+				"nest[ptr][0][value]": {"v"},
+			},
+		},
+		{
+			nil,
+			url.Values{},
+		},
+	}
+
+	for _, tt := range tests {
+		testValue(t, tt.input, tt.want)
+	}
+}
+
 func TestValues_OmitEmpty(t *testing.T) {
 	str := ""
 

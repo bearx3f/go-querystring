@@ -251,7 +251,21 @@ func reflectValue(values url.Values, val reflect.Value, scope string) error {
 					if opts.Contains("numbered") {
 						k = fmt.Sprintf(name, i)
 					}
-					values.Add(k, valueString(sv.Index(i), opts, sf))
+					svi := sv.Index(i)
+					switch svi.Kind() {
+					case reflect.Ptr:
+						svie := svi.Elem()
+						switch svie.Kind() {
+						case reflect.Struct:
+							reflectValue(values, svie, k)
+						default:
+							values.Add(k, valueString(svi, opts, sf))
+						}
+					case reflect.Struct:
+						reflectValue(values, svi, k)
+					default:
+						values.Add(k, valueString(svi, opts, sf))
+					}
 				}
 			}
 			continue
