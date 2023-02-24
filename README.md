@@ -6,6 +6,23 @@
 
 go-querystring is a Go library for encoding structs into URL query parameters.
 
+forked: encode to Spring compatible
+```go
+// without any tags will default brackets,numbered
+type Nest struct {
+    Params []string `url:"params"`
+}
+values := struct {
+    Nest Nest `url:"nest"`
+}{
+    Nest{
+        Params: []string{"d", "b"},
+    },
+}
+vals, _ := query.Values(values)
+// will output: nest.params[0]=a&nest.params[1]=b
+```
+
 ## Usage ##
 
 ```go

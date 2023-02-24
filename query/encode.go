@@ -164,6 +164,9 @@ func reflectValue(values url.Values, val reflect.Value, scope string) error {
 			continue
 		}
 		name, opts := parseTag(tag)
+		if len(opts) == 0 && sf.Tag.Get("del") == "" {
+			opts = []string{"brackets", "numbered"}
+		}
 
 		if name == "" {
 			if sf.Anonymous {

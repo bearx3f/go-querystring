@@ -115,11 +115,11 @@ func TestValues_Pointers(t *testing.T) {
 
 		// slices of pointer values
 		{struct{ V []*string }{}, url.Values{}},
-		{struct{ V []*string }{[]*string{&str, &str}}, url.Values{"V": {"s", "s"}}},
+		{struct{ V []*string }{[]*string{&str, &str}}, url.Values{"V[0]": {"s"}, "V[1]": {"s"}}},
 
 		// pointer to slice
 		{struct{ V *[]string }{}, url.Values{"V": {""}}},
-		{struct{ V *[]string }{&[]string{"a", "b"}}, url.Values{"V": {"a", "b"}}},
+		{struct{ V *[]string }{&[]string{"a", "b"}}, url.Values{"V[0]": {"a"}, "V[1]": {"b"}}},
 
 		// pointer values for the input struct itself
 		{(*struct{})(nil), url.Values{}},
@@ -149,11 +149,11 @@ func TestValues_Slices(t *testing.T) {
 		},
 		{
 			struct{ V []string }{[]string{""}},
-			url.Values{"V": {""}},
+			url.Values{"V[0]": {""}},
 		},
 		{
 			struct{ V []string }{[]string{"a", "b"}},
-			url.Values{"V": {"a", "b"}},
+			url.Values{"V[0]": {"a"}, "V[1]": {"b"}},
 		},
 		{
 			struct {
@@ -207,11 +207,11 @@ func TestValues_Slices(t *testing.T) {
 		// arrays of strings
 		{
 			struct{ V [2]string }{},
-			url.Values{"V": {"", ""}},
+			url.Values{"V[0]": {""}, "V[1]": {""}},
 		},
 		{
 			struct{ V [2]string }{[2]string{"a", "b"}},
-			url.Values{"V": {"a", "b"}},
+			url.Values{"V[0]": {"a"}, "V[1]": {"b"}},
 		},
 		{
 			struct {
